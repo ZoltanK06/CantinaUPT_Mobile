@@ -3,11 +3,12 @@ import { Image, Text, View, StyleSheet, TouchableOpacity, FlatList } from 'react
 import { useNavigation } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useContext } from 'react';
-import { NavigationContext } from '../App';
+import { FetchContext, NavigationContext } from '../App';
 
 function CartScreen() {
 
     const navigationContext = useContext(NavigationContext);
+    const fetchContext = useContext(FetchContext);
 
     const navigation = useNavigation();
     const [isCartEmpty, setIsCartEmpty] = useState(false);
@@ -28,7 +29,7 @@ function CartScreen() {
     const fetchCartItems = async () => {
         setLoading(true);
         try {
-         const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/cart/GetCartItems');
+         const response = await fetch(fetchContext.fetchURL + '/api/cart/GetCartItems');
          const json = await response.json();
          setCartItems(json);
        } catch (error) {
@@ -45,7 +46,7 @@ function CartScreen() {
     const increaseQuantity = async (id) => {
         setLoading(true);
         try {
-            const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/cart/IncreaseQuantity', {
+            const response = await fetch(fetchContext.fetchURL + '/api/cart/IncreaseQuantity', {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json'
@@ -66,7 +67,7 @@ function CartScreen() {
     const decreaseQuantity = async (id) => {
         setLoading(true);
         try {
-            const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/cart/DecreaseQuantityOrDelete', {
+            const response = await fetch(fetchContext.fetchURL + '/api/cart/DecreaseQuantityOrDelete', {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json'

@@ -25,15 +25,19 @@ const theme = {
 
 export const NavigationContext = React.createContext();
 export const MealContext = React.createContext();
+export const FetchContext = React.createContext();
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState('AuthenticationScreen');
+  // const [fetchURL, setFetchURL] = useState('https://cantinauptapiweb20221228130400.azurewebsites.net');
+  const [fetchURL, setFetchURL] = useState('http://localhost:57678');
   const [meals, setMeals] = useState([{}]);
 
   return (
     <NavigationContainer theme={theme}>
       <NavigationContext.Provider value={{currentScreen, setCurrentScreen}}>
       <MealContext.Provider value={{meals, setMeals}}>
+      <FetchContext.Provider value={{fetchURL}}>
         <StatusBar backgroundColor="#01135d"/>
         <Header /> 
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Authentication">
@@ -46,6 +50,7 @@ export default function App() {
           <Stack.Screen name="PaymentScreen" component={PaymentScreen}/>
         </Stack.Navigator>
         <NavBar />
+      </FetchContext.Provider>
       </MealContext.Provider>
       </NavigationContext.Provider>
     </NavigationContainer>

@@ -2,11 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import {Text, StyleSheet, SafeAreaView, View, Button, Pressable, Image, Touchable, TouchableOpacity, ScrollView, ActivityIndicator} from 'react-native'
 import { useContext } from 'react';
-import { MealContext } from '../App';
+import { FetchContext, MealContext } from '../App';
 
 function HomeScreen() {
 
     const navigation = useNavigation();
+    const fetchContext = useContext(FetchContext);
     const goToLoginPage = () => {
         navigation.navigate('MenuScreen');
     }
@@ -19,7 +20,7 @@ function HomeScreen() {
     const getCanteens = async () => {
         setLoading(true);
         try {
-         const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/canteen/GetEveryCanteensDetails');
+         const response = await fetch(fetchContext.fetchURL + '/api/canteen/GetEveryCanteensDetails');
          const json = await response.json();
          setCanteens(json);
        } catch (error) {
@@ -32,7 +33,7 @@ function HomeScreen() {
     const getMeals = async (canteenId) => {
         setLoading(true);
         try {
-            const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/canteen/GetMealsOfCanteen/' + canteenId);
+            const response = await fetch(fetchContext.fetchURL + '/api/canteen/GetMealsOfCanteen/' + canteenId);
             const json = await response.json();
             console.log(json.foodsCategorized);
             mealContext.setMeals(json);

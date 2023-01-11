@@ -13,7 +13,7 @@ function MenuScreen () {
   const addToCart = async (mealId) => {
     setLoading(true);
     try {
-      const response = await fetch('https://cantinauptapiweb20221228130400.azurewebsites.net/api/cart/AddToCart', {
+      const response = await fetch(fetchContext.fetchURL + '/api/cart/AddToCart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
